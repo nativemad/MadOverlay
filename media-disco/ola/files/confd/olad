@@ -1,0 +1,4 @@
+# Options to pass to the olad daemon
+RPC_PORT=9010
+HTTP_PORT=9090
+LOG_LEVEL=1

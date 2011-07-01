@@ -1,0 +1,26 @@
+#!/sbin/runscript
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+depend() {
+	need net
+	use logger
+}
+
+start() {
+	ebegin "Starting the OLA Daemon"
+	start-stop-daemon --start --chuid olad --exec /usr/bin/olad -- -f -s -p ${HTTP_PORT} -r ${RPC_PORT} -l ${LOG_LEVEL}
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping the OLA daemon"
+	start-stop-daemon --stop --chuid olad --exec /usr/bin/olad 
+	eend $?	
+}
+
+restart() {
+	stop
+	start
+}
