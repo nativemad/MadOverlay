@@ -24,15 +24,17 @@ RDEPEND="${DEPEND}"
 src_configure() {
 	enewgroup olad
 	enewuser olad -1 -1 /var/lib/olad "olad,usb"
-	sed -e 's/string home_dir = pwd_ptr->pw_dir/string home_dir = getenv("HOME")/g' -i ${S}/olad/OlaDaemon.cpp || die "homedir patch failed"
-	econf --prefix=/usr $(use python && echo "--enable-python-libs") \
-	$(use !webserver && echo "--disable-http") \
-	$(use !examples && echo "--disable-examples")
+	# This sed for the homedir-lookup is used, as at least the testsuite doesn't read the $HOME correctly.
+	sed -e 's/string home_dir = pwd_ptr->pw_dir/string home_dir = getenv("HOME")/g' -i \
+	${S}/olad/OlaDaemon.cpp || die "homedir patch failed"
+	econf --prefix=/usr \
+	$(use_enable python python-libs) \
+	$(use_enable webserver http) \
+	$(use_enable examples)
 
 }
 
 src_compile() {
-	#make || die
 	emake || die
 }
 

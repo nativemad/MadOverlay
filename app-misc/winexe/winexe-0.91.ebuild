@@ -5,7 +5,7 @@ inherit eutils
 
 DESCRIPTION="winexe remotely executes commands on WindowsNT/2000/XP/2003 systems
 from GNU/Linux"
-HOMEPAGE="http://http://sourceforge.net/projects/winexe/"
+HOMEPAGE="http://http://sourceforge.net/projects/${PN}/"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-3"
@@ -23,6 +23,7 @@ src_compile() {
 	cd ${S}/source4
 	epatch "${FILESDIR}/filesdir.patch"
 	./autogen.sh || die "autogen failed"
+	# It only compiles with fhs enabled....
 	econf --enable-fhs || die "econf failed."
 	emake basics idl bin/winexe || die "emake failed."
 }

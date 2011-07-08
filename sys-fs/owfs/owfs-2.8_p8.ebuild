@@ -38,6 +38,10 @@ OWGID=${OWGID:-owfs}
 PYTHON_CFLAGS=("2.* + -fno-strict-aliasing")
 PYTHON_MODNAME="ow ownet"
 
+#tests were already disabled bevore the 2.8_p8 bump... I will have to look into it a bit!
+RESTRICT="test"
+
+
 pkg_setup() {
 	if use php; then
 		require_php_cli
@@ -49,9 +53,6 @@ pkg_setup() {
 	enewuser  ${OWUID} 150 -1 -1 ${OWGID}
 }
 
-src_unpack() {
-	base_src_unpack
-}
 
 src_prepare() {
 	base_src_prepare
@@ -97,7 +98,7 @@ src_compile() {
 	fi
 }
 
-src_test() { :; }
+#src_test() { :; }
 
 src_install() {
 	emake DESTDIR="${D}" install || die "emake install failed"
